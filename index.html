@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Braille</title>
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+  <div id="header">
+    <p style="font-size: xx-large;">Perkins Braille Typewriter</p>
+    <p>Use keys s, d, f, SPACE, and j, k, l</p>
+  </div>
+  <div class="centered-container">
+    <div class="button" id="s">3</div>
+    <div class="button" id="d">2</div>
+    <div class="button" id="f">1</div>
+    <div class="button wide-button" id=" ">SPACE</div>
+    <div class="button" id="j">4</div>
+    <div class="button" id="k">5</div>
+    <div class="button" id="l">6</div>
+  </div>
+
+  <div class="centered-container" id="braille-container">
+
+  </div>
+
+  <div id="written-text"> </div>
+
+  <script type="text/javascript">
+
+    //Define vars
+    var keysDown = [];
+    var pressedKeyNum = 0;
+    var pressedKeys = { "f": 0, "j": 0, "d": 0, "k": 0, "s": 0, "l": 0 };
+    var braille = ["100000", "101000", "110000", "110100", "100100", "111000", "111100", "101100", "011000", "011100", "100010", "101010", "110010", "110110", "100110", "111010", "111110", "101110", "011010", "011110", "100011", "101011", "011101", "110011", "110111", "100111", "001101", "001000"];
+    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,";
+
+    var writtenText = "", newBrailleLetter = "";
+    var writtenBraille = [];
+
+    var circleHTML = ["<div class='empty-circle'></div>", "<div class='circle'></div>"];
+    var letterStartHTML = '<div class="braille-letter">', divCloseHTML = "</div>", spaceHTML = "<div style='width:30px;'></div>";
+
+    //Define functions
+    function updateButtons() {
+      for (let b of Object.keys(pressedKeys)) {
+        if (pressedKeys[b] !== 0) document.getElementById(b).style.backgroundColor = "cadetblue";
+        else document.getElementById(b).style.backgroundColor = "aquamarine";
+      }
+      document.getElementById("written-text").innerHTML = writtenText;
+      document.getElementById("braille-container").innerHTML = Object.values(writtenBraille).join('');
+    }
+
+    function getLetter() {
+      return alphabet[braille.indexOf(Object.values(pressedKeys).join(''))];
+    }
+
+    //MAIN ------------------------------------------------------------------------------
+    //Keydown
+    window.addEventListener("keydown", (event) => {
+      if (event.key === " ") {
+        writtenText += " ";
+        writtenBraille.push(spaceHTML);
+      } else if (event.key === "Backspace") {
+        if (writtenText.length > 0) {
+          writtenText = writtenText.substring(0, writtenText.length - 1);
+          writtenBraille.pop();
+        }
+      } else if ((event.key === 'f' || event.key === 'd' || event.key === 's' || event.key === 'j' || event.key === 'k' || event.key === 'l') && pressedKeys[event.key] === 0) {
+        pressedKeys[event.key] = 1;
+        pressedKeyNum++;
+      }
+      updateButtons();
+    })
+
+    //Keyup
+    window.addEventListener("keyup", (event) => {
+      if (event.key !== 'Backspace' && event.key !== ' ' && (event.key === 'f' || event.key === 'd' || event.key === 's' || event.key === 'j' || event.key === 'k' || event.key === 'l')) {
+        if (pressedKeyNum === 1) {
+          pressedKeyNum = 0;
+          //If valid letter then add to writtenText variables
+          if (getLetter() !== undefined) {
+            writtenText += getLetter();
+            for (let v of Object.values(pressedKeys)) {
+              newBrailleLetter += circleHTML[v];
+            }
+            writtenBraille.push(letterStartHTML + newBrailleLetter + divCloseHTML);
+            newBrailleLetter = "";
+          }
+          pressedKeys = { "f": 0, "j": 0, "d": 0, "k": 0, "s": 0, "l": 0 };
+        } else pressedKeyNum--;
+        updateButtons();
+      }
+    })
+
+  </script>
+</body>
+
+</html>

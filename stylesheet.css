@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: lighter !important;
+    font-size: large;
+    background-color: beige;
+}
+
+.button {
+    font-family: 'Courier New', Courier, monospace;
+    font-size:x-large;
+    margin: 120px 20px;
+    padding: 10px;
+    background-color:aquamarine;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4%;
+    height: 90px;
+    box-shadow: 0px 5px 9px 0px rgba(128, 128, 128, 0.26);
+}
+.wide-button {
+    width: 7%;
+}
+.centered-container {
+    display: flex;
+    justify-content: center;
+}
+.circle {
+    border-radius: 50%;
+    background-color: black;
+    width: 10px;
+    height: 10px;
+    margin: 3px;
+}
+.empty-circle {
+    width: 8px;
+    height: 8px;
+    margin: 3px;
+    border-radius: 50%;
+    background-color: beige;
+    border: 1px solid black;
+}
+.braille-letter {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 33px;
+    margin: 3px;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: aquamarine;
+    line-height: 0;
+    padding: 30px;
+    box-shadow: 0px 5px 9px 0px rgba(128, 128, 128, 0.26);
+}
+#written-text{
+    text-align: center;
+    font-size: xx-large;
+    margin: 15px;
+}
+#braille-container{
+    margin: 20px;
+    flex-wrap: wrap;
+}
